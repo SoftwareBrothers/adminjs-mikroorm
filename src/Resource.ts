@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { BaseResource, Filter, BaseRecord, ValidationError } from 'admin-bro';
+import { BaseResource, Filter, BaseRecord, ValidationError } from 'adminjs';
 import {
   AnyEntity,
   MikroORM,
@@ -23,7 +23,7 @@ export type AdapterORM = {
 };
 
 // eslint-disable-next-line max-len
-const OrmNotFoundError = 'ORM is not set. Make sure to set it before registering the adapter: AdminBro.setORM(mikroOrmInstance)';
+const OrmNotFoundError = 'ORM is not set. Make sure to set it before registering the adapter: AdminJS.setORM(mikroOrmInstance)';
 
 export class Resource extends BaseResource {
   public static orm: AdapterORM;

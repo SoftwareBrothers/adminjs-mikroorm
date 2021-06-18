@@ -159,7 +159,7 @@ dist
 types
 build
 lib
-.adminbro
+.adminjs
 
 example-app/.env
 *.log

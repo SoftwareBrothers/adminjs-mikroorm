@@ -5,9 +5,9 @@ import dotenv from 'dotenv';
 dotenv.config({ path: path.join(__dirname, '../.env') });
 /* eslint-disable import/first */
 import express from 'express';
-import AdminBro from 'admin-bro';
-import AdminBroExpress from '@admin-bro/express';
-import { Database, Resource } from 'admin-bro-mikroorm';
+import AdminJS from 'adminjs';
+import AdminJSExpress from '@adminjs/express';
+import { Database, Resource } from '@adminjs/mikroorm';
 import { MikroORM } from '@mikro-orm/core';
 
 import { User, Car, Seller } from './entities';
@@ -25,7 +25,7 @@ const run = async () => {
   });
 
   Resource.setORM(orm as any);
-  AdminBro.registerAdapter({ Database, Resource });
+  AdminJS.registerAdapter({ Database, Resource });
 
   const app = express();
 
@@ -57,12 +57,12 @@ const run = async () => {
     Seller,
   ];
 
-  const admin = new AdminBro({
+  const admin = new AdminJS({
     // databases: [orm],
     resources,
   });
 
-  const router = AdminBroExpress.buildRouter(admin);
+  const router = AdminJSExpress.buildRouter(admin);
 
   app.use(admin.options.rootPath, router);
 

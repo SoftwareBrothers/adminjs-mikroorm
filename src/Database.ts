@@ -1,4 +1,4 @@
-import { BaseDatabase } from 'admin-bro';
+import { BaseDatabase } from 'adminjs';
 import { MikroORM } from '@mikro-orm/core';
 
 import { Resource } from './Resource';

@@ -1,4 +1,4 @@
-import { Filter } from 'admin-bro';
+import { Filter } from 'adminjs';
 import { FilterQuery, AnyEntity } from '@mikro-orm/core';
 import { Property } from '../Property';
 

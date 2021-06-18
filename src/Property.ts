@@ -1,5 +1,5 @@
 import { EntityProperty } from '@mikro-orm/core';
-import { BaseProperty, PropertyType } from 'admin-bro';
+import { BaseProperty, PropertyType } from 'adminjs';
 import { DATA_TYPES } from './utils/data-types';
 
 export class Property extends BaseProperty {
