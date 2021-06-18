@@ -1,27 +1,6 @@
 name: CI/CD
 on: [push, pull_request]
 jobs:
-  setup:
-    name: setup
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup
-        uses: actions/setup-node@v1
-        with:
-          node-version: '14.x'
-      - uses: actions/cache@v1
-        id: yarn-cache
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node_modules-
-      - name: Install
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: yarn install
-
   test:
     name: Test
     runs-on: ubuntu-latest
