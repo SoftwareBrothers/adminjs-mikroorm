@@ -35,7 +35,7 @@
   },
   "peerDependencies": {
     "@mikro-orm/core": "^4.5.0",
-    "adminjs": "^3.4.0"
+    "adminjs": "^5.0.1"
   },
   "dependencies": {
     "flat": "^5.0.2"
@@ -51,7 +51,7 @@
     "@types/node": "^14.14.36",
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
-    "adminjs": "^3.4.0",
+    "adminjs": "^5.0.1",
     "class-validator": "^0.13.1",
     "dotenv-cli": "^4.0.0",
     "eslint": "^7.22.0",
