@@ -4,7 +4,8 @@
  * @section modules
  *
  * @description
- * ### Official [AdminJS](https://github.com/SoftwareBrothers/adminjs) adapter which integrates [MikroORM](https://github.com/mikro-orm/mikro-orm) into AdminJS.
+ * ### Official [AdminJS](https://github.com/SoftwareBrothers/adminjs) adapter which integrates 
+ * [MikroORM](https://github.com/mikro-orm/mikro-orm) into AdminJS.
  *
  * #### Installation
  *
@@ -53,7 +54,8 @@
  * ## Associations
  *
  * Currently only `ManyToOne` and `OneToOne` relationships are supported due to current AdminJS's core limitations
- * for adapter integrations. `OneToMany` and `ManyToMany` relationships can still be achieved through a combination of custom components and hooks.
+ * for adapter integrations. `OneToMany` and `ManyToMany` relationships can still be achieved through 
+ * a combination of custom components and hooks.
  *
  */
 
@@ -64,7 +66,7 @@
  * @type {typeof BaseDatabase}
  * @static
  */
-import { Database } from './Database';
+import { Database } from "./Database";
 
 /**
  * Implementation of {@link BaseResource} for MikroORM Adapter
@@ -73,9 +75,9 @@ import { Database } from './Database';
  * @type {typeof BaseResource}
  * @static
  */
-import { Resource } from './Resource';
+import { Resource } from "./Resource";
 
-export { Resource } from './Resource';
-export { Database } from './Database';
+export { Resource } from "./Resource";
+export { Database } from "./Database";
 
 export default { Database, Resource };
