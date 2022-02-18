@@ -19,7 +19,8 @@
     "paths": {
       "react": ["node_modules/@types/react"],
       "styled-components": ["node_modules/@types/styled-components"]
-    }
+    },
+    "skipLibCheck": true
   },
   "include": [
     "./src/**/*.ts"
