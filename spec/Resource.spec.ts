@@ -3,12 +3,12 @@ import { BaseProperty, BaseRecord, ValidationError, Filter, flat } from 'adminjs
 import { validate } from 'class-validator';
 import { MikroORM } from '@mikro-orm/core';
 
-import { Resource } from '../src/Resource';
+import { Resource } from '../src/Resource.js';
 
-import { Car, CarType } from './entities/Car';
-import { initORM } from './utils/init-orm';
-import { User, UserRole } from './entities/User';
-import { Seller } from './entities';
+import { Car, CarType } from './entities/Car.js';
+import { initORM } from './utils/init-orm.js';
+import { User, UserRole } from './entities/User.js';
+import { Seller } from './entities/Seller.js';
 
 describe('Resource', () => {
   let resource: Resource;

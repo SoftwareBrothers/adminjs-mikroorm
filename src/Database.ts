@@ -1,7 +1,7 @@
 import { BaseDatabase } from 'adminjs';
 import { MikroORM } from '@mikro-orm/core';
 
-import { Resource } from './Resource';
+import { Resource } from './Resource.js';
 
 export class Database extends BaseDatabase {
   public constructor(public readonly orm: MikroORM) {

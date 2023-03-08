@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es2017",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "target": "esnext",
     "lib": [
-      "es2018",
+      "esnext",
       "DOM"
     ],
     "sourceMap": true,
@@ -16,10 +17,6 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "baseUrl": ".",
-    "paths": {
-      "react": ["node_modules/@types/react"],
-      "styled-components": ["node_modules/@types/styled-components"]
-    },
     "skipLibCheck": true
   },
   "include": [
