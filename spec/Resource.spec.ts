@@ -2,13 +2,15 @@ import 'reflect-metadata';
 import { BaseProperty, BaseRecord, ValidationError, Filter, flat } from 'adminjs';
 import { validate } from 'class-validator';
 import { MikroORM } from '@mikro-orm/core';
+import { jest } from '@jest/globals';
 
 import { Resource } from '../src/Resource.js';
-
 import { Car, CarType } from './entities/Car.js';
 import { initORM } from './utils/init-orm.js';
 import { User, UserRole } from './entities/User.js';
 import { Seller } from './entities/Seller.js';
+
+jest.useFakeTimers();
 
 describe('Resource', () => {
   let resource: Resource;

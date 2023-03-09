@@ -2,7 +2,7 @@
 import { v4 } from 'uuid';
 import { BaseEntity, Entity, Enum, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
 
-import type { Car } from './Car.js';
+import { Car } from './Car.js';
 
 export enum UserRole {
   ADMIN = 'admin',
