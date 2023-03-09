@@ -7,7 +7,7 @@ import { Resource } from '../src/Resource';
 
 import { Car, CarType } from './entities/Car';
 import { initORM } from './utils/init-orm';
-import { User } from './entities/User';
+import { User, UserRole } from './entities/User';
 import { Seller } from './entities';
 
 describe('Resource', () => {
@@ -184,12 +184,16 @@ describe('Resource', () => {
         firstName: 'John',
         lastName: 'Smith',
         age: 20,
-        role: 'admin',
+        role: UserRole.ADMIN,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        cars: [],
       });
       await orm.em.persistAndFlush(user);
 
       seller = orm.em.getRepository(Seller).create({
         name: 'Test',
+        cars: [],
       });
       await orm.em.persistAndFlush(seller);
     });

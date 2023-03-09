@@ -9,4 +9,5 @@ export const initORM = (): Promise<MikroORM> => setupDb().then(() => MikroORM.in
   type: 'postgresql',
   clientUrl: process.env.DATABASE_URL,
   debug: true,
+  allowGlobalContext: true,
 }));
