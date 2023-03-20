@@ -18,7 +18,7 @@
       "require": "./lib/index.js"
     }
   },
-  "version": "2.0.0",
+  "version": "3.0.0-beta.1",
   "license": "MIT",
   "scripts": {
     "clean": "rm -fR lib",
