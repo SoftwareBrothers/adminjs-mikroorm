@@ -44,6 +44,8 @@ const NUMBER = [
   'unsigned big int',
   'float4',
   'float8',
+
+  'Number',
 ];
 
 const STRING = [
@@ -148,6 +150,8 @@ const STRING = [
   'uniqueidentifier',
   'rowversion',
   'cube',
+
+  'string',
 ];
 
 const DATE = [
@@ -168,6 +172,9 @@ const DATE = [
   'timestamp with local time zone',
   'smalldatetime',
   'date',
+  'Date',
+  'Datetime',
+  'DateTime',
 ];
 
 const BOOLEAN = [
@@ -177,6 +184,7 @@ const BOOLEAN = [
   'boolean',
   'bit varying',
   'varbit',
+  'Boolean',
 ];
 
 // const ARRAY = [
@@ -189,6 +197,7 @@ const OBJECT = [
   'simple-json',
   'json',
   'jsonb',
+  'object',
 ];
 
 const DATA_TYPES: Record<string, PropertyType> = {};

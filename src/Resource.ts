@@ -8,11 +8,11 @@ import {
   EntityManager,
   Loaded,
   wrap,
+  EntityClass,
 } from '@mikro-orm/core';
-import { EntityClass } from '@mikro-orm/core/typings';
 
-import { Property } from './Property';
-import { convertFilter } from './utils/convert-filter';
+import { Property } from './Property.js';
+import { convertFilter } from './utils/convert-filter.js';
 
 export type AdapterORM = {
   database?: string;
@@ -86,15 +86,13 @@ export class Resource extends BaseResource {
     const results = await this.orm.em
       .fork()
       .getRepository(this.model)
-      .find(
-        convertFilter(filter), {
-          orderBy: {
-            [sortBy]: direction,
-          },
-          limit,
-          offset,
+      .find(convertFilter(filter), {
+        orderBy: {
+          [sortBy]: direction,
         },
-      );
+        limit,
+        offset,
+      });
 
     return results.map((result) => new BaseRecord(wrap(result).toJSON(), this));
   }

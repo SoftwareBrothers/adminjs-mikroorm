@@ -13,7 +13,7 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 11,
+    ecmaVersion: 20,
     sourceType: 'module',
   },
   plugins: [
@@ -44,6 +44,11 @@ module.exports = {
     rules: {
       'react/prop-types': 'off',
       'react/jsx-props-no-spreading': 'off',
+    },
+  }, {
+    files: ['*.spec.ts'],
+    rules: {
+      'import/no-extraneous-dependencies': 'off',
     },
   }],
 };

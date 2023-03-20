@@ -66,7 +66,7 @@
  * @type {typeof BaseDatabase}
  * @static
  */
-import { Database } from './Database';
+import { Database } from './Database.js';
 
 /**
  * Implementation of {@link BaseResource} for MikroORM Adapter
@@ -75,9 +75,9 @@ import { Database } from './Database';
  * @type {typeof BaseResource}
  * @static
  */
-import { Resource } from './Resource';
+import { Resource } from './Resource.js';
 
-export { Resource } from './Resource';
-export { Database } from './Database';
+export { Resource } from './Resource.js';
+export { Database } from './Database.js';
 
 export default { Database, Resource };

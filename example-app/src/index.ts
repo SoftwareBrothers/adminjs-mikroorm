@@ -10,7 +10,7 @@ import AdminJSExpress from '@adminjs/express';
 import { Database, Resource } from '@adminjs/mikroorm';
 import { MikroORM } from '@mikro-orm/core';
 
-import { User, Car, Seller } from './entities';
+import { User, Car, Seller } from './entities/index.js';
 /* eslint-enable import/first */
 
 const PORT = 3000;
