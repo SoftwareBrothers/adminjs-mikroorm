@@ -1,8 +1,11 @@
 import 'reflect-metadata';
 import { MikroORM } from '@mikro-orm/core';
+import { jest } from '@jest/globals';
 
-import { Database } from '../src/Database';
-import { initORM } from './utils/init-orm';
+import { Database } from '../src/Database.js';
+import { initORM } from './utils/init-orm.js';
+
+jest.useFakeTimers();
 
 describe('Database', () => {
   let orm: MikroORM;

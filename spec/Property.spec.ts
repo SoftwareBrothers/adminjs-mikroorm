@@ -1,10 +1,13 @@
 import 'reflect-metadata';
 import { MikroORM } from '@mikro-orm/core';
+import { jest } from '@jest/globals';
 
-import { Property } from '../src/Property';
-import { Car } from './entities/Car';
-import { initORM } from './utils/init-orm';
-import { Resource } from '../src/Resource';
+import { Property } from '../src/Property.js';
+import { Car } from './entities/Car.js';
+import { initORM } from './utils/init-orm.js';
+import { Resource } from '../src/Resource.js';
+
+jest.useFakeTimers();
 
 const findProperty = (properties: Array<Property>, field: string): Property | undefined => properties.find(
   (p) => p.getColumnMetadata().name === field,

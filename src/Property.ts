@@ -1,6 +1,7 @@
 import { EntityProperty } from '@mikro-orm/core';
 import { BaseProperty, PropertyType } from 'adminjs';
-import { DATA_TYPES } from './utils/data-types';
+
+import { DATA_TYPES } from './utils/data-types.js';
 
 export class Property extends BaseProperty {
   private column: EntityProperty;

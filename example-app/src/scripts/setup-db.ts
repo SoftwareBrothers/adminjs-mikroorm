@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 /* eslint-disable import/first */
 import { MikroORM } from '@mikro-orm/core';
-import { Car, Seller, User } from '../entities';
+import { Car, Seller, User } from '../entities/index.js';
 /* eslint-enable import/first */
 
 (async () => {

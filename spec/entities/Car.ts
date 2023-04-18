@@ -1,8 +1,9 @@
+/* eslint-disable no-use-before-define */
 import { BaseEntity, Entity, ManyToOne, PrimaryKey, Property, Enum } from '@mikro-orm/core';
 import { MinLength } from 'class-validator';
 
-import { Seller } from './Seller';
-import { User } from './User';
+import { Seller } from './Seller.js';
+import { User } from './User.js';
 
 export enum CarType {
   MODERN = 'modern',
@@ -12,27 +13,27 @@ export enum CarType {
 @Entity({ tableName: 'cars' })
 export class Car extends BaseEntity<Car, 'id'> {
   @PrimaryKey()
-  id: number;
+    id: number;
 
   @Property({ fieldName: 'name', columnType: 'text' })
   @MinLength(10)
-  name: string;
+    name: string;
 
   @Property({ fieldName: 'meta', columnType: 'jsonb', default: '{}' })
-  meta: Record<string, any>;
+    meta: Record<string, any>;
 
   @Property({ fieldName: 'created_at', columnType: 'timestamptz' })
-  createdAt: Date = new Date();
+    createdAt: Date = new Date();
 
   @Property({ fieldName: 'updated_at', columnType: 'timestamptz', onUpdate: () => new Date() })
-  updatedAt: Date = new Date();
+    updatedAt: Date = new Date();
 
   @Enum(() => CarType)
-  type: CarType;
+    type: CarType;
 
   @ManyToOne(() => User, { mapToPk: true, nullable: true })
-  owner: User | null;
+    owner: User | null;
 
   @ManyToOne(() => Seller, { mapToPk: true, nullable: true })
-  seller: Seller | null;
+    seller: Seller | null;
 }

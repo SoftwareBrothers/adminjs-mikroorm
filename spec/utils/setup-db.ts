@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
 import 'reflect-metadata';
 import { MikroORM } from '@mikro-orm/core';
-import { Car, Seller, User } from '../entities';
+
+import { Car, Seller, User } from '../entities/index.js';
 
 export const setupDb = async () => {
   const orm = await MikroORM.init({

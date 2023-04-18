@@ -1,27 +1,39 @@
-import { BaseEntity, Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
-import { Seller } from './Seller';
-import { User } from './User';
+/* eslint-disable no-use-before-define */
+import {
+  BaseEntity,
+  Entity,
+  ManyToOne,
+  PrimaryKey,
+  Property,
+} from '@mikro-orm/core';
+
+import { Seller } from './Seller.js';
+import { User } from './User.js';
 
 @Entity({ tableName: 'cars' })
 export class Car extends BaseEntity<Car, 'id'> {
   @PrimaryKey()
-  id: number;
+    id: number;
 
   @Property({ fieldName: 'name', columnType: 'text' })
-  name: string;
+    name: string;
 
   @Property({ fieldName: 'meta', columnType: 'jsonb', default: '{}' })
-  meta: Record<string, any>;
+    meta: Record<string, any>;
 
   @Property({ fieldName: 'created_at', columnType: 'timestamptz' })
-  createdAt: Date = new Date();
+    createdAt: Date = new Date();
 
-  @Property({ fieldName: 'updated_at', columnType: 'timestamptz', onUpdate: () => new Date() })
-  updatedAt: Date = new Date();
+  @Property({
+    fieldName: 'updated_at',
+    columnType: 'timestamptz',
+    onUpdate: () => new Date(),
+  })
+    updatedAt: Date = new Date();
 
   @ManyToOne(() => User, { mapToPk: true })
-  owner: User;
+    owner: User;
 
   @ManyToOne(() => Seller, { mapToPk: true })
-  seller: Seller;
+    seller: Seller;
 }

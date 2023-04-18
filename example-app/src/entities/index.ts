@@ -1,3 +1,3 @@
-export { User } from './User';
-export { Car } from './Car';
-export { Seller } from './Seller';
+export { User } from './User.js';
+export { Car } from './Car.js';
+export { Seller } from './Seller.js';

@@ -1,6 +1,7 @@
 import { Filter } from 'adminjs';
 import { FilterQuery, AnyEntity } from '@mikro-orm/core';
-import { Property } from '../Property';
+
+import { Property } from '../Property.js';
 
 function safeParseJSON(json: string) {
   try {

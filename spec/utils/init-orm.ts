@@ -1,7 +1,7 @@
 import { MikroORM } from '@mikro-orm/core';
 
-import { User, Car, Seller } from '../entities';
-import { setupDb } from './setup-db';
+import { User, Car, Seller } from '../entities/index.js';
+import { setupDb } from './setup-db.js';
 
 export const initORM = (): Promise<MikroORM> => setupDb().then(() => MikroORM.init({
   entities: [User, Car, Seller],
@@ -9,4 +9,5 @@ export const initORM = (): Promise<MikroORM> => setupDb().then(() => MikroORM.in
   type: 'postgresql',
   clientUrl: process.env.DATABASE_URL,
   debug: true,
+  allowGlobalContext: true,
 }));
