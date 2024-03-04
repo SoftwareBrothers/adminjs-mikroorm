@@ -3,5 +3,9 @@
   "include": [
     "./src/**/*.ts",
     "./spec/**/*.ts"
-  ]
+  ],
+  "compilerOptions": {
+		"module": "ESNext",
+		"moduleResolution": "Node10"
+	}
 }

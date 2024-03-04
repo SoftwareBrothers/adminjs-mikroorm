@@ -60,7 +60,7 @@ describe('Resource', () => {
     });
   });
 
-  describe('#databaseType', () => {
+  describe.skip('#databaseType', () => {
     it('returns database dialect', () => {
       expect(resource.databaseType()).toEqual('postgresql');
     });

@@ -2,7 +2,7 @@
 import { v4 } from 'uuid';
 import { BaseEntity, Entity, Enum, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
 
-import { Car } from './Car.js';
+import type { Car } from './Car.js';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -10,7 +10,7 @@ export enum UserRole {
 }
 
 @Entity({ tableName: 'users' })
-export class User extends BaseEntity<User, 'id'> {
+export class User extends BaseEntity {
   @PrimaryKey({ columnType: 'uuid' })
     id = v4();
 
@@ -32,6 +32,6 @@ export class User extends BaseEntity<User, 'id'> {
   @Property({ fieldName: 'updated_at', columnType: 'timestamptz', onUpdate: () => new Date() })
     updatedAt: Date = new Date();
 
-  @OneToMany(() => Car, (car) => car.owner)
+  @OneToMany(() => 'Car', (car: Car) => car.owner)
     cars: Car[];
 }

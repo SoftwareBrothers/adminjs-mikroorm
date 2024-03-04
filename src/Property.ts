@@ -1,4 +1,4 @@
-import { EntityProperty } from '@mikro-orm/core';
+import { EntityProperty, ReferenceKind } from '@mikro-orm/core';
 import { BaseProperty, PropertyType } from 'adminjs';
 
 import { DATA_TYPES } from './utils/data-types.js';
@@ -38,7 +38,7 @@ export class Property extends BaseProperty {
   }
 
   public reference(): string | null {
-    const isRef = ['1:1', 'm:1'].includes(this.column.reference);
+    const isRef = [ReferenceKind.ONE_TO_ONE, ReferenceKind.MANY_TO_ONE].includes(this.column.kind);
     if (isRef) {
       return this.column.targetMeta?.name ?? this.column.type;
     }

@@ -1,8 +1,5 @@
 import 'reflect-metadata';
-import path from 'path';
-import dotenv from 'dotenv';
 
-dotenv.config({ path: path.join(__dirname, '../.env') });
 /* eslint-disable import/first */
 import express from 'express';
 import AdminJS from 'adminjs';
@@ -10,6 +7,7 @@ import AdminJSExpress from '@adminjs/express';
 import { Database, Resource } from '@adminjs/mikroorm';
 import { MikroORM } from '@mikro-orm/core';
 
+import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { User, Car, Seller } from './entities/index.js';
 /* eslint-enable import/first */
 
@@ -19,7 +17,7 @@ const run = async () => {
   const orm = await MikroORM.init({
     entities: [User, Car, Seller],
     dbName: process.env.DATABASE_NAME,
-    type: 'postgresql',
+    driver: PostgreSqlDriver,
     clientUrl: process.env.DATABASE_URL,
     debug: true,
   });

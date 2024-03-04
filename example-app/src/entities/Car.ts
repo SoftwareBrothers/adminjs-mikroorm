@@ -7,11 +7,11 @@ import {
   Property,
 } from '@mikro-orm/core';
 
-import { Seller } from './Seller.js';
-import { User } from './User.js';
+import type { Seller } from './Seller.js';
+import type { User } from './User.js';
 
 @Entity({ tableName: 'cars' })
-export class Car extends BaseEntity<Car, 'id'> {
+export class Car extends BaseEntity {
   @PrimaryKey()
     id: number;
 
@@ -31,9 +31,9 @@ export class Car extends BaseEntity<Car, 'id'> {
   })
     updatedAt: Date = new Date();
 
-  @ManyToOne(() => User, { mapToPk: true })
+  @ManyToOne(() => 'User', { mapToPk: true })
     owner: User;
 
-  @ManyToOne(() => Seller, { mapToPk: true })
+  @ManyToOne(() => 'Seller', { mapToPk: true })
     seller: Seller;
 }
