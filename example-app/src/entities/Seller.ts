@@ -2,7 +2,7 @@
 import { BaseEntity, Entity, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
 
-import { Car } from './Car.js';
+import type { Car } from './Car.js';
 
 export enum UserRoles {
   DESIGNER = 'designer',
@@ -10,13 +10,13 @@ export enum UserRoles {
 }
 
 @Entity()
-export class Seller extends BaseEntity<Seller, 'id'> {
+export class Seller extends BaseEntity {
   @PrimaryKey({ columnType: 'uuid' })
     id = v4();
 
   @Property({ fieldName: 'name', columnType: 'text' })
     name: string;
 
-  @OneToMany(() => Car, (car) => car.seller)
+  @OneToMany(() => 'Car', (car: Car) => car.seller)
     cars: Car[];
 }

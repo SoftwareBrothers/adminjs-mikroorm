@@ -14,7 +14,9 @@
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
       "strictPropertyInitialization": false,
-      "sourceMap": true
+      "sourceMap": false,
+      "skipDefaultLibCheck": true,
+      "skipLibCheck": true
   },
   "include": [
       "./src/**/*"

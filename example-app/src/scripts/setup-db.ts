@@ -1,11 +1,9 @@
 /* eslint-disable no-console */
 import 'reflect-metadata';
-import path from 'path';
-import dotenv from 'dotenv';
 
-dotenv.config({ path: path.join(__dirname, '../../.env') });
 /* eslint-disable import/first */
 import { MikroORM } from '@mikro-orm/core';
+import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { Car, Seller, User } from '../entities/index.js';
 /* eslint-enable import/first */
 
@@ -13,23 +11,10 @@ import { Car, Seller, User } from '../entities/index.js';
   const orm = await MikroORM.init({
     entities: [User, Car, Seller],
     dbName: process.env.DATABASE_NAME,
-    type: 'postgresql',
+    driver: PostgreSqlDriver,
     clientUrl: process.env.DATABASE_URL,
   });
   const generator = orm.getSchemaGenerator();
-
-  const dropDump = await generator.getDropSchemaSQL();
-  console.log(dropDump);
-
-  const createDump = await generator.getCreateSchemaSQL();
-  console.log(createDump);
-
-  const updateDump = await generator.getUpdateSchemaSQL();
-  console.log(updateDump);
-
-  // there is also `generate()` method that returns drop + create queries
-  const dropAndCreateDump = await generator.generate();
-  console.log(dropAndCreateDump);
 
   // or you can run those queries directly, but be sure to check them first!
   await generator.dropSchema();

@@ -2,8 +2,8 @@
 import { BaseEntity, Entity, ManyToOne, PrimaryKey, Property, Enum } from '@mikro-orm/core';
 import { MinLength } from 'class-validator';
 
-import { Seller } from './Seller.js';
-import { User } from './User.js';
+import type { Seller } from './Seller.js';
+import type { User } from './User.js';
 
 export enum CarType {
   MODERN = 'modern',
@@ -11,7 +11,7 @@ export enum CarType {
 }
 
 @Entity({ tableName: 'cars' })
-export class Car extends BaseEntity<Car, 'id'> {
+export class Car extends BaseEntity {
   @PrimaryKey()
     id: number;
 
@@ -31,9 +31,9 @@ export class Car extends BaseEntity<Car, 'id'> {
   @Enum(() => CarType)
     type: CarType;
 
-  @ManyToOne(() => User, { mapToPk: true, nullable: true })
+  @ManyToOne(() => 'User', { mapToPk: true, nullable: true })
     owner: User | null;
 
-  @ManyToOne(() => Seller, { mapToPk: true, nullable: true })
+  @ManyToOne(() => 'Seller', { mapToPk: true, nullable: true })
     seller: Seller | null;
 }

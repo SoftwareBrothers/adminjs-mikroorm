@@ -1,5 +1,11 @@
 /* eslint-disable no-param-reassign */
-import { BaseResource, Filter, BaseRecord, ValidationError, flat } from 'adminjs';
+import {
+  BaseResource,
+  Filter,
+  BaseRecord,
+  ValidationError,
+  flat,
+} from 'adminjs';
 import {
   AnyEntity,
   MikroORM,
@@ -9,6 +15,7 @@ import {
   Loaded,
   wrap,
   EntityClass,
+  ReferenceKind,
 } from '@mikro-orm/core';
 
 import { Property } from './Property.js';
@@ -32,7 +39,7 @@ export class Resource extends BaseResource {
 
   private propertiesObject: Record<string, Property>;
 
-  constructor(args: { model: EntityClass<AnyEntity>, orm: MikroORM }) {
+  constructor(args: { model: EntityClass<AnyEntity>; orm: MikroORM }) {
     super(args);
 
     const { model, orm } = args;
@@ -43,14 +50,15 @@ export class Resource extends BaseResource {
   }
 
   public databaseName(): string {
-    const {
-      database,
-    } = this.orm.config.getDriver().getConnection().getConnectionOptions();
+    const { database } = this.orm.config
+      .getDriver()
+      .getConnection()
+      .getConnectionOptions();
     return database || 'mikroorm';
   }
 
   public databaseType(): string {
-    return this.orm.config.getAll().type || this.databaseName();
+    return this.databaseName();
   }
 
   public name(): string {
@@ -74,14 +82,21 @@ export class Resource extends BaseResource {
   }
 
   public async count(filter: Filter): Promise<number> {
-    return this.orm.em.fork().getRepository(this.model).count(
-      convertFilter(filter),
-    );
+    return this.orm.em
+      .fork()
+      .getRepository(this.model)
+      .count(convertFilter(filter));
   }
 
-  public async find(filter: Filter, params: Record<string, any> = {}): Promise<Array<BaseRecord>> {
+  public async find(
+    filter: Filter,
+    params: Record<string, any> = {},
+  ): Promise<Array<BaseRecord>> {
     const { limit = 10, offset = 0, sort = {} } = params;
-    const { direction, sortBy } = sort as { direction: 'asc' | 'desc', sortBy: string };
+    const { direction, sortBy } = sort as {
+      direction: 'asc' | 'desc';
+      sortBy: string;
+    };
 
     const results = await this.orm.em
       .fork()
@@ -94,7 +109,9 @@ export class Resource extends BaseResource {
         offset,
       });
 
-    return results.map((result) => new BaseRecord(wrap(result).toJSON(), this));
+    return results.map(
+      (result) => new BaseRecord(wrap(result).toObject(), this),
+    );
   }
 
   public async findOne(id: string | number): Promise<BaseRecord | null> {
@@ -105,7 +122,7 @@ export class Resource extends BaseResource {
 
     if (!result) return null;
 
-    return new BaseRecord(wrap(result).toJSON(), this);
+    return new BaseRecord(wrap(result).toObject(), this);
   }
 
   public async findMany(
@@ -119,10 +136,14 @@ export class Resource extends BaseResource {
       .getRepository(this.model)
       .find({ [pk]: { $in: ids } });
 
-    return results.map((result) => new BaseRecord(wrap(result).toJSON(), this));
+    return results.map(
+      (result) => new BaseRecord(wrap(result).toObject(), this),
+    );
   }
 
-  public async create(params: Record<string, any>): Promise<Record<string, any>> {
+  public async create(
+    params: Record<string, any>,
+  ): Promise<Record<string, any>> {
     const em = this.orm.em.fork();
     const instance = em
       .getRepository(this.model)
@@ -130,16 +151,19 @@ export class Resource extends BaseResource {
 
     await this.validateAndSave(instance, em);
 
-    const returnedParams: Record<string, any> = flat.flatten(wrap(instance).toJSON());
+    const returnedParams: Record<string, any> = flat.flatten(
+      wrap(instance).toObject(),
+    );
 
     return returnedParams;
   }
 
-  public async update(pk: string | number, params: Record<string, any> = {}): Promise<Record<string, any>> {
+  public async update(
+    pk: string | number,
+    params: Record<string, any> = {},
+  ): Promise<Record<string, any>> {
     const em = this.orm.em.fork();
-    const instance = await em
-      .getRepository(this.model)
-      .findOne(pk as any); // mikroorm has incorrect types for findOneOrFail
+    const instance = await em.getRepository(this.model).findOne(pk);
 
     if (!instance) throw new Error('Record to update not found');
 
@@ -147,7 +171,9 @@ export class Resource extends BaseResource {
 
     await this.validateAndSave(updatedInstance, em);
 
-    const returnedParams: Record<string, any> = flat.flatten(wrap(updatedInstance).toJSON());
+    const returnedParams: Record<string, any> = flat.flatten(
+      wrap(updatedInstance).toObject(),
+    );
 
     return returnedParams;
   }
@@ -159,13 +185,19 @@ export class Resource extends BaseResource {
       .nativeDelete(id as any); // mikroorm has incorrect types for nativeDelete
   }
 
-  public static isAdapterFor(args?: { model?: EntityClass<AnyEntity>, orm?: MikroORM }): boolean {
+  public static isAdapterFor(args?: {
+    model?: EntityClass<AnyEntity>;
+    orm?: MikroORM;
+  }): boolean {
     const { model, orm } = args ?? {};
 
     return !!model?.name && !!orm?.getMetadata?.().find?.(model.name);
   }
 
-  async validateAndSave(instance: Loaded<AnyEntity>, em: EntityManager): Promise<void> {
+  async validateAndSave(
+    instance: Loaded<AnyEntity>,
+    em: EntityManager,
+  ): Promise<void> {
     if (Resource.validate) {
       const errors = await Resource.validate(instance);
       if (errors && errors.length) {
@@ -188,7 +220,10 @@ export class Resource extends BaseResource {
       // TODO: figure out how to get column name from MikroORM's error metadata
       // It currently seems to return only whole Entity
       console.log(error);
-      if (error.name === 'QueryFailedError' || error.name === 'ValidationError') {
+      if (
+        error.name === 'QueryFailedError'
+        || error.name === 'ValidationError'
+      ) {
         throw new ValidationError({
           [error.column]: {
             type: 'QueryFailedError',
@@ -202,7 +237,14 @@ export class Resource extends BaseResource {
   private prepareProperties(): { [propertyPath: string]: Property } {
     const { hydrateProps = [] } = this.metadata ?? {};
     return hydrateProps.reduce((memo, prop, index) => {
-      if (!['scalar', 'm:1', '1:1', 'm:n'].includes(prop.reference)) return memo;
+      if (
+        ![
+          ReferenceKind.SCALAR,
+          ReferenceKind.MANY_TO_ONE,
+          ReferenceKind.ONE_TO_ONE,
+          ReferenceKind.MANY_TO_MANY,
+        ].includes(prop.kind)
+      ) return memo;
 
       const property = new Property(prop, index);
       memo[property.path()] = property;

@@ -5,24 +5,24 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "db:setup": "ts-node ./src/scripts/setup-db.ts",
-    "start": "node build/index.js",
-    "dev": "yarn build && concurrently \"yarn build --watch\" \"nodemon --ext '.js' --watch ../lib --watch ./build node build/index.js\""
+    "db:setup": "dotenv -c '.env' -- node build/scripts/setup-db.js",
+    "start": "dotenv -c '.env' -- node build/index.js"
   },
   "devDependencies": {
     "@types/express": "^4.17.17",
     "@types/node": "^18",
     "@types/uuid": "^9.0.1",
+    "dotenv-cli": "^7.3.0",
     "nodemon": "^2.0.21",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.9.5"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@adminjs/express": "^5.1.0",
-    "@adminjs/mikroorm": "^2.0.0",
-    "@mikro-orm/core": "^5.6.13",
-    "@mikro-orm/postgresql": "^5.6.13",
-    "adminjs": "^6.8.7",
+    "@adminjs/express": "^6.1.0",
+    "@adminjs/mikroorm": "^3.0.0",
+    "@mikro-orm/core": "^6.1.7",
+    "@mikro-orm/postgresql": "^6.1.7",
+    "adminjs": "^7.7.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-formidable": "^1.2.0",
