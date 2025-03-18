@@ -11,6 +11,21 @@ function safeParseJSON(json: string) {
   }
 }
 
+const OPERATOR_SEPARATOR = '~';
+
+const MATCHING_PATTERNS = {
+  EQ: 'equals',
+  NE: 'notEquals',
+  CO: 'contains',
+  EW: 'endsWith',
+  SW: 'startsWith',
+};
+
+const OPERATORS = {
+  AND: 'and',
+  OR: 'or',
+};
+
 export function convertFilter(filter?: Filter): FilterQuery<AnyEntity> {
   if (!filter) return {};
 
@@ -29,7 +44,73 @@ export function convertFilter(filter?: Filter): FilterQuery<AnyEntity> {
     } else if ((filter.property as Property).isEnum() || filter.property.type() === 'reference') {
       where[name] = filter.value;
     } else {
-      where[name] = { $like: `%${filter.value.toString()}%` };
+      const value = filter.value;
+      if (typeof value === 'object') {
+        if (value[MATCHING_PATTERNS.SW]) {
+          where[name] = { $like: `${value[MATCHING_PATTERNS.SW].toString()}%` };
+        } else if (value[MATCHING_PATTERNS.EW]) {
+          where[name] = { $like: `%${value[MATCHING_PATTERNS.EW].toString()}` };
+        } else if (value[MATCHING_PATTERNS.EQ]) {
+          where[name] = value[MATCHING_PATTERNS.EQ];
+        } else if (value[MATCHING_PATTERNS.NE]) {
+          where[name] = { $ne: `%${value[MATCHING_PATTERNS.NE].toString()}` };
+        } else {
+          const orPrefix = `${OPERATORS.OR}${OPERATOR_SEPARATOR}`;
+          if (value[`${orPrefix}${MATCHING_PATTERNS.SW}`]) {
+            return {
+              ...where,
+              $or: [
+                ...(where['$or'] || []),
+                {
+                  [name]: { $like: `${value[`${orPrefix}${MATCHING_PATTERNS.SW}`].toString()}%` },
+                },
+              ],
+            };
+          } else if (value[`${orPrefix}${MATCHING_PATTERNS.EW}`]) {
+            return {
+              ...where,
+              $or: [
+                ...(where['$or'] || []),
+                {
+                  [name]: { $like: `%${value[`${orPrefix}${MATCHING_PATTERNS.EW}`].toString()}` },
+                },
+              ],
+            };
+          } else if (value[`${orPrefix}${MATCHING_PATTERNS.EQ}`]) {
+            return {
+              ...where,
+              $or: [
+                ...(where['$or'] || []),
+                {
+                  [name]: value[`${orPrefix}${MATCHING_PATTERNS.EQ}`].toString(),
+                },
+              ],
+            };
+          } else if (value[`${orPrefix}${MATCHING_PATTERNS.NE}`]) {
+            return {
+              ...where,
+              $or: [
+                ...(where['$or'] || []),
+                {
+                  [name]: { $ne: value[`${orPrefix}${MATCHING_PATTERNS.NE}`].toString() },
+                },
+              ],
+            };
+          } else if (value[OPERATORS.OR]) {
+            return {
+              ...where,
+              $or: [
+                ...(where['$or'] || []),
+                {
+                  [name]: { $like: `%${value[OPERATORS.OR].toString()}%` },
+                },
+              ],
+            };
+          }
+        }
+      } else {
+        where[name] = { $like: `%${value.toString()}%` };
+      }
     }
 
     return where;
