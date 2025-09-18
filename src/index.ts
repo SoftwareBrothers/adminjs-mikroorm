@@ -77,6 +77,7 @@ import { Database } from './Database.js';
  */
 import { Resource } from './Resource.js';
 
+export { DATA_TYPES } from './utils/data-types.js';
 export { Resource } from './Resource.js';
 export { Database } from './Database.js';
 
